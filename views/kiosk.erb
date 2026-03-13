@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+  <%= erb :"includes/head" %>
+
+  <% if session[:reservation_message] %>
+  <script>
+    alert("<%= session[:reservation_message] %>");
+  </script>
+  <% session[:reservation_message] = nil %>
+<% end %>
+  
+<body class="bg-[#F8F7F4] flex flex-col min-h-screen font-sans text-[#4A0404] pb-32">
+
+  <!-- Header -->
+  <div class="w-full pt-6 pl-8 flex items-center">
+    <img src="/assets/imgs/UMLab_Logo.svg" alt="UMLab Logo" class="h-8 w-auto">
+  </div>
+
+  <div class="w-full max-w-[1400px] mx-auto px-8 mt-4">
+
+    <!-- Page Title and Search -->
+    <div class="flex flex-col md:flex-row justify-between items-center md:items-end mb-8 gap-6">
+      <h1 class="text-xl md:text-xl font-bold text-[#C89B1E]">
+        Available Equipments
+      </h1>
+
+      <div class="flex items-center gap-4">
+        <div class="relative">
+          <input 
+            type="text" 
+            id="searchInput"
+            placeholder="Search equipment..." 
+            class="bg-[#EBE5F0] text-gray-600 text-sm rounded-full py-2 pl-4 pr-10 w-48 focus:outline-none focus:ring-2 focus:ring-[#C89B1E]"
+          >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 absolute right-3 top-2.5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kiosk Items Display -->
+    <div id="itemsContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4"></div>
+
+    <!-- Pagination Controls -->
+    <div class="flex justify-center items-center mt-4 gap-2">
+      <button id="prevPage" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Prev</button>
+      <span id="pageInfo" class="px-3 py-1"></span>
+      <button id="nextPage" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Next</button>
+    </div>
+
+  </div>
+
+  <!-- Bottom Fixed Buttons -->
+  <div class="fixed bottom-0 left-0 w-full bg-[#4A0404] p-6 flex justify-center gap-4 sm:gap-8 z-50">
+    <button id="checkCartBtn" class="border border-[#C89B1E] hover:bg-[#600000] text-white font-medium py-3 px-8 sm:px-16 rounded-2xl text-lg transition-all w-full max-w-xs text-center">
+      Check Reservation
+    </button>
+  </div>
+
+  <!-- Cart Modal -->
+  <div id="cartModal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div class="bg-[#5c0a0a] rounded-xl w-11/12 max-w-2xl p-6 text-white relative">
+
+      <h2 class="text-xl font-bold mb-4">Your Items</h2>
+      <div id="cartItemsContainer" class="max-h-80 overflow-y-auto mb-4"></div>
+
+      <div class="flex justify-end space-x-2">
+        <button type="button" onclick="closeCartModal()" class="px-4 py-2 rounded-lg border border-white hover:bg-white hover:text-[#5c0a0a] transition">
+          Close
+        </button>
+        <button id="submitCartBtn" type="button" class="px-4 py-2 rounded-lg bg-green-500 hover:bg-green-600 transition">
+          Confirm Reservation
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Reservation Form Modal -->
+  <div id="reservationModal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div class="bg-[#5c0a0a] rounded-xl w-11/12 max-w-2xl p-6 text-white relative">
+
+      <h2 class="text-xl font-bold mb-4">Reservation form</h2>
+
+      <form id="reservationForm" class="grid grid-cols-1 md:grid-cols-2 gap-4" method="POST" action="/reserve-items">
+        <!-- Name -->
+        <div class="md:col-span-1">
+          <label class="block text-sm font-semibold mb-1">Name</label>
+          <input required type="text" name="name" class="w-full rounded-md p-2 text-black" placeholder="Enter your name">
+        </div>
+
+        <!-- Date of Use -->
+        <div class="md:col-span-1">
+          <label class="block text-sm font-semibold mb-1">Date of Use (min. 3 days after)</label>
+          <input required type="date" id="dateOfUse" name="date_of_use" class="w-full rounded-md p-2 text-black">
+          <p id="dateError" class="text-red-400 text-xs mt-1 hidden">Date of use must be at least 3 days after reservation date</p>
+        </div>
+
+        <!-- Class Code -->
+        <div class="md:col-span-1">
+          <label class="block text-sm font-semibold mb-1">Class Code</label>
+          <input required type="text" name="class_code" class="w-full rounded-md p-2 text-black" placeholder="Enter class code">
+        </div>
+
+        <!-- Course Title -->
+        <div class="md:col-span-1">
+          <label class="block text-sm font-semibold mb-1">Course Title</label>
+          <input required type="text" name="course_title" class="w-full rounded-md p-2 text-black" placeholder="Enter course title">
+        </div>
+
+        <!-- Program -->
+        <div class="md:col-span-1">
+          <label class="block text-sm font-semibold mb-1">Program</label>
+          <input required type="text" name="program" class="w-full rounded-md p-2 text-black" placeholder="Enter program">
+        </div>
+
+        <!-- Cart Items Summary (hidden) -->
+        <div id="cartItemsHidden"></div>
+
+        <!-- Buttons -->
+        <div class="md:col-span-2 flex justify-end space-x-2">
+          <button type="button" onclick="closeReservationModal()" class="px-4 py-2 rounded-lg border border-white hover:bg-white hover:text-[#5c0a0a] transition">
+            Cancel
+          </button>
+          <button type="submit" class="px-4 py-2 rounded-lg bg-green-500 hover:bg-green-600 transition">
+            Submit Reservation
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <script>
+    const allItems = <%= @items.to_json %>;
+    let cart = []
+    let filteredItems = [...allItems]
+    let currentPage = 1
+    const itemsPerPage = 8
+
+    const itemsContainer = document.getElementById('itemsContainer')
+    const searchInput = document.getElementById('searchInput')
+    const pageInfo = document.getElementById('pageInfo')
+    const prevPageBtn = document.getElementById('prevPage')
+    const nextPageBtn = document.getElementById('nextPage')
+
+    function renderItems() {
+      itemsContainer.innerHTML = ''
+      const start = (currentPage - 1) * itemsPerPage
+      const end = start + itemsPerPage
+      const pageItems = filteredItems.slice(start, end)
+
+      if(pageItems.length === 0){
+        itemsContainer.innerHTML = `<p class="text-gray-500 col-span-full text-center">No items found</p>`
+        pageInfo.innerText = ''
+        return
+      }
+
+      pageItems.forEach(item => {
+        const div = document.createElement('div')
+        div.className = 'bg-white rounded-xl shadow-md overflow-hidden flex flex-col'
+
+        div.innerHTML = `
+          <div class="h-40 bg-gray-200 flex items-center justify-center">
+            ${item.picture && item.picture.length ? `<img src="/items/${item.picture}" alt="${item.name}" class="h-full w-full object-contain p-2">` : `<span class="text-gray-400 text-sm">No Image</span>`}
+          </div>
+          <div class="p-4 flex flex-col flex-1">
+            <h3 class="text-lg font-bold text-[#5c0a0a] mb-2">${item.name}</h3>
+            <p class="text-sm text-gray-600 mb-1"><strong>Type:</strong> ${item.type}</p>
+            <p class="text-sm text-gray-600 mb-1"><strong>Available:</strong> ${item.quantity}</p>
+          </div>
+          <div class="p-4">
+            <button class="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-medium transition" 
+              onclick="addToCart('${item.inventory_id}', '${item.name}', '${item.type}', ${item.quantity})">
+              Add
+            </button>
+          </div>
+        `
+        itemsContainer.appendChild(div)
+      })
+
+      const totalPages = Math.ceil(filteredItems.length / itemsPerPage)
+      pageInfo.innerText = `Page ${currentPage} of ${totalPages}`
+    }
+
+    // Search filter
+    searchInput.addEventListener('input', e => {
+      const query = e.target.value.toLowerCase()
+      filteredItems = allItems.filter(item => 
+        item.name.toLowerCase().includes(query) || 
+        item.type.toLowerCase().includes(query)
+      )
+      currentPage = 1
+      renderItems()
+    })
+
+    // Pagination buttons
+    prevPageBtn.addEventListener('click', () => {
+      if(currentPage > 1){
+        currentPage--
+        renderItems()
+      }
+    })
+    nextPageBtn.addEventListener('click', () => {
+      if(currentPage < Math.ceil(filteredItems.length / itemsPerPage)){
+        currentPage++
+        renderItems()
+      }
+    })
+
+    // Cart functions
+    function addToCart(id, name, type, maxQty) {
+      const existing = cart.find(i => i.id === id)
+      if(existing){
+        if(existing.qty < maxQty) existing.qty++
+      } else {
+        cart.push({id, name, type, qty: 1, max: maxQty})
+      }
+      alert(`${name} added to cart`)
+    }
+
+    const checkCartBtn = document.getElementById('checkCartBtn')
+    const cartModal = document.getElementById('cartModal')
+    const cartItemsContainer = document.getElementById('cartItemsContainer')
+
+    checkCartBtn.addEventListener('click', () => {
+      renderCartModal()
+      cartModal.classList.remove('hidden')
+    })
+
+    function closeCartModal() {
+      cartModal.classList.add('hidden')
+    }
+
+    function renderCartModal() {
+      cartItemsContainer.innerHTML = ''
+      if(cart.length === 0){
+        cartItemsContainer.innerHTML = `<p class="text-gray-300 text-center">Your cart is empty.</p>`
+        return
+      }
+
+      cart.forEach(item => {
+        const itemDiv = document.createElement('div')
+        itemDiv.className = 'flex justify-between items-center mb-2 bg-gray-700 p-2 rounded'
+        itemDiv.innerHTML = `
+          <div class="flex items-center gap-2">
+            <button class="bg-red-500 hover:bg-red-600 px-2 py-1 rounded text-white" onclick="removeFromCart('${item.id}')" title="Remove item">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+            <div>
+              <p class="font-bold">${item.name}</p>
+              <p class="text-sm">${item.type}</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button class="bg-gray-500 px-2 rounded" onclick="adjustCartQty('${item.id}', -1)">-</button>
+            <span>${item.qty}</span>
+            <button class="bg-gray-500 px-2 rounded" onclick="adjustCartQty('${item.id}', 1)">+</button>
+          </div>
+        `
+        cartItemsContainer.appendChild(itemDiv)
+      })
+    }
+
+    function adjustCartQty(id, change) {
+      const item = cart.find(i => i.id === id)
+      if(!item) return
+      item.qty += change
+      if(item.qty > item.max) item.qty = item.max
+      if(item.qty < 1) item.qty = 1
+      renderCartModal()
+    }
+
+    function removeFromCart(id) {
+      cart = cart.filter(i => i.id !== id)
+      renderCartModal()
+    }
+
+    // Confirm Reservation
+    const submitCartBtn = document.getElementById('submitCartBtn')
+    const reservationModal = document.getElementById('reservationModal')
+    const reservationForm = document.getElementById('reservationForm')
+    const cartItemsHidden = document.getElementById('cartItemsHidden')
+    const dateOfUseInput = document.getElementById('dateOfUse')
+    const dateError = document.getElementById('dateError')
+
+    // Set minimum date of use to 3 days from today
+    function initializeDateOfUse() {
+      const today = new Date()
+      const minDate = new Date(today)
+      minDate.setDate(minDate.getDate() + 3)
+      const minDateString = minDate.toISOString().split('T')[0]
+      
+      // Set the minimum date - disables all dates before this
+      dateOfUseInput.min = minDateString
+      dateOfUseInput.max = '' // Remove any max constraint
+      dateOfUseInput.value = minDateString
+      dateOfUseInput.disabled = false
+    }
+
+    // Validate date of use
+    dateOfUseInput.addEventListener('change', () => {
+      const today = new Date()
+      const dateOfUse = new Date(dateOfUseInput.value)
+      const minDate = new Date(today)
+      minDate.setDate(minDate.getDate() + 3)
+
+      if(dateOfUse < minDate) {
+        dateError.classList.remove('hidden')
+        dateOfUseInput.setCustomValidity('Date of use must be at least 3 days from today')
+      } else {
+        dateError.classList.add('hidden')
+        dateOfUseInput.setCustomValidity('')
+      }
+    })
+
+    submitCartBtn.addEventListener('click', () => {
+      if(cart.length === 0){
+        alert("Cart is empty!")
+        return
+      }
+
+      // Initialize date of use when opening modal
+      initializeDateOfUse()
+
+      // Populate hidden cart items in the reservation form
+      cartItemsHidden.innerHTML = ''
+      cart.forEach((item, index) => {
+        const idInput = document.createElement('input')
+        idInput.type = 'hidden'
+        idInput.name = `cart[${index}][id]`
+        idInput.value = item.id
+        cartItemsHidden.appendChild(idInput)
+
+        const qtyInput = document.createElement('input')
+        qtyInput.type = 'hidden'
+        qtyInput.name = `cart[${index}][qty]`
+        qtyInput.value = item.qty
+        cartItemsHidden.appendChild(qtyInput)
+      })
+
+      // Show the reservation form modal
+      reservationModal.classList.remove('hidden')
+      closeCartModal()
+    })
+
+    function closeReservationModal() {
+      reservationModal.classList.add('hidden')
+    }
+
+    // Handle reservation form submission
+    reservationForm.addEventListener('submit', (e) => {
+      e.preventDefault()
+      reservationForm.submit()
+    })
+
+    // Initial render
+    renderItems()
+  </script>
+
+</body>
+</html>

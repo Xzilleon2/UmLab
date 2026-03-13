@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en"> 
+
+<%= 
+    erb :"includes/head" 
+%>
+
+<% if session[:schedule_message] %>
+  <script>
+    alert("<%= session[:schedule_message] %>");
+  </script>
+  <% session[:schedule_message] = nil %>
+<% end %>
+
+<body class="bg-[#fcfcfc] font-sans">
+
+    <main class="flex min-h-screen">
+
+        <!-- Sidebar navigation panel -->
+        <aside class="w-64 bg-[#5c0a0a] text-white flex flex-col p-6 space-y-10 flex-none sticky top-0 h-screen">
+
+            <!-- Logo container section -->
+            <div class="flex flex-col items-center border-b border-red-900 pb-6"> <!-- Wrapper for the system logo -->
+                <img src="/assets/imgs/UMLab_Logo.svg" alt="UMLab Logo" class="w-40 h-auto"> <!-- Displays the laboratory system logo -->
+            </div>
+
+            <!-- Navigation menu container -->
+            <nav class="flex-1 space-y-2"> <!-- Holds all sidebar navigation links -->
+
+                <!-- Dashboard navigation link -->
+                <a href="/dashboard" class="flex items-center space-x-3 p-3 text-gray-300 hover:bg-[#3d0808] hover:text-white rounded-lg transition-all"> <!-- Link directing to dashboard page -->
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <!-- Icon representing dashboard -->
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+                    </svg>
+                    <span>Dashboard</span> <!-- Text label for dashboard -->
+                </a>
+
+                <!-- Reservation navigation link -->
+                <a href="/reservation" class="flex items-center space-x-3 p-3 text-gray-300 hover:bg-[#3d0808] hover:text-white rounded-lg transition-all"> <!-- Link to reservation page -->
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <!-- Reservation icon -->
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    <span>Reservation</span> <!-- Reservation page label -->
+                </a>
+
+                <!-- Schedule navigation link (active page) -->
+                <a href="/schedule" class="flex items-center space-x-3 bg-[#3d0808] p-3 rounded-lg border-l-4 border-yellow-500 transition-all"> <!-- Link to schedule page -->
+                    <svg class="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <!-- Schedule icon -->
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span class="font-semibold text-yellow-500">Schedule</span> <!-- Label showing current active page -->
+                </a>
+
+                <!-- Students navigation link -->
+                <a href="/students" class="flex items-center space-x-3 p-3 text-gray-300 hover:bg-[#3d0808] hover:text-white rounded-lg transition-all"> <!-- Link to student management page -->
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <!-- Students icon -->
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                    </svg>
+                    <span>Students</span> <!-- Students label -->
+                </a>
+
+                <!-- Logout navigation link -->
+                <a href="/logout" class="flex items-center space-x-3 p-3 text-gray-300 hover:bg-red-800 hover:text-white rounded-lg transition-all"> <!-- Logs the admin out -->
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <!-- Logout icon -->
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                    </svg>
+                    <span>Logout</span> <!-- Logout label -->
+                </a>
+
+            </nav>
+
+            <!-- Admin information display -->
+            <div class="flex items-center space-x-3 bg-[#3d0808] p-4 rounded-xl border border-red-900/50"> <!-- Admin info container -->
+
+                <div class="bg-gray-200 rounded-lg p-1 text-gray-600"> <!-- Avatar icon container -->
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"> <!-- Admin user icon -->
+                        <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" />
+                    </svg>
+                </div>
+
+                <div> <!-- Admin details container -->
+                    <p class="text-xs font-bold leading-none">Admin</p> <!-- Displays user role -->
+                    <p class="text-[10px] opacity-60">Physics Laboratory</p> <!-- Displays department -->
+                </div>
+
+            </div>
+
+        </aside>
+
+        <!-- Main content area -->
+        <div class="flex-1 p-10 overflow-y-auto">
+
+            <!-- Page header section -->
+            <header class="flex justify-between items-center mb-6">
+
+                <div class="flex items-center space-x-4"> <!-- Title container -->
+                    <svg class="w-10 h-10 text-[#5c0a0a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                    <h1 class="text-4xl font-black text-yellow-500 uppercase tracking-tight"> <!-- Main page heading -->
+                        Schedule - Physics Laboratory
+                    </h1>
+                </div>
+
+            </header>
+
+            <!-- Morning schedule section header -->
+            <div class="flex justify-between items-end mb-8">
+                <h2 class="text-xl font-black text-[#5c0a0a]">Morning(8:00AM-12:00AM)</h2>
+                <div id="open_addschedule"  class="text-[#5c0a0a] cursor-pointer text-xs font-bold flex items-center hover:underline">
+                    <span class="text-lg mr-1">+</span> Add
+                </div>
+            </div>
+
+            <!-- add Modal -->
+            <%= erb :"modals/addschedule", layout: false %>
+
+            <!-- update Modal -->
+            <%= erb :"modals/updateschedule", layout: false %>
+
+            <!-- delete Modal -->
+            <%= erb :"modals/deleteschedule", layout: false %>
+
+            <!--Morning Schedule-->
+            <% @schedules.each do |schedule| %>
+            <% start_time_str = schedule["class_time"].split("-")[0].strip %>
+            <% start_hour = Time.parse(start_time_str).hour %>
+
+            <% if start_hour >= 8 && start_hour < 12 %>
+
+            <div class="space-y-12">
+
+                <!--Card Container-->
+                <div class="flex flex-col">
+                    
+                    <div class="text-right pr-4 mb-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                        Lab Schedule
+                    </div>
+
+                    <!--Card Content-->
+                    <div class="bg-[#5c0a0a] rounded-[1.5rem] overflow-hidden shadow-xl text-white">
+                        <div class="p-8 grid grid-cols-1 sm:grid-cols-3 gap-x-12 gap-y-6 text-[12px] uppercase">
+
+                            <div class="space-y-1">
+                                <p class="opacity-50 font-semibold">Name of the Teacher:</p>
+                                <div class="border-b border-white/30 pb-1"><%= schedule["teacher_name"] %></div>
+                            </div>
+
+                            <div class="space-y-1">
+                                <p class="opacity-50 font-semibold">Class Time:</p>
+                                <div class="border-b border-white/30 pb-1"><%= schedule["class_time"] %></div>
+                            </div>
+
+                            <div class="space-y-1">
+                                <p class="opacity-50 font-semibold">Class Lab Schedule:</p>
+                                <div class="border-b border-white/30 pb-1"><%= schedule["lab_schedule"] %></div>
+                            </div>
+
+                            <div class="space-y-1">
+                                <p class="opacity-50 font-semibold">Class Code:</p>
+                                <div class="border-b border-white/30 pb-1"><%= schedule["class_code"] %></div>
+                            </div>
+
+                            <div class="space-y-1">
+                                <p class="opacity-50 font-semibold">Classroom #:</p>
+                                <div class="border-b border-white/30 pb-1"><%= schedule["classroom_number"] %></div>
+                            </div>
+
+                            <div class="space-y-1">
+                                <p class="opacity-50 font-semibold">Course:</p>
+                                <div class="border-b border-white/30 pb-1"><%= schedule["course"] %></div>
+                            </div>
+
+                        </div>
+
+                        <!--Card Buttons-->
+                        <div class="bg-[#3d0808] px-8 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+                            <div class="text-[11px] font-bold uppercase tracking-wider">
+                                <span>Status: <span class="text-yellow-500"><%= schedule["status"] %></span></span>
+                            </div>
+
+                            <div class="flex space-x-3">
+                                <button type="button"
+                                class="bg-[#22c55e] hover:bg-green-600 px-10 py-1.5 rounded-full text-[10px] font-black uppercase transition-all shadow-md"
+                                data-id="<%= schedule["schedule_id"] %>"
+                                data-teacher="<%= schedule["teacher_name"] %>"
+                                data-time="<%= schedule["class_time"] %>"
+                                data-lab="<%= schedule["lab_schedule"] %>"
+                                data-code="<%= schedule["class_code"] %>"
+                                data-room="<%= schedule["classroom_number"] %>"
+                                data-course="<%= schedule["course"] %>"
+                                data-status="<%= schedule["status"] %>"
+                                onclick="openUpdateModal(this)">
+                                Edit
+                                </button>
+                                <button type="button"
+                                class="bg-red-500 hover:bg-red-600 px-6 py-1.5 rounded-full text-[10px] font-black uppercase transition-all shadow-md"
+                                data-id="<%= schedule["schedule_id"] %>"
+                                onclick="openDeleteModal(this)">
+                                Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <% end %>
+            <% end %>
+
+            <!-- Afternoon schedule section -->
+            <h2 class="text-xl font-black text-[#5c0a0a] mt-16 mb-8">Afternoon(12:30PM-5:30PM)</h2>
+            <% @schedules.each do |schedule| %>
+            <% start_time_str = schedule["class_time"].split("-")[0].strip rescue nil %>
+            <% next if start_time_str.nil? %>
+            <% start_time_obj = Time.parse(start_time_str) %>
+            <% if (start_time_obj.hour == 12 && start_time_obj.min >= 30) || (start_time_obj.hour > 12 && start_time_obj.hour < 17) %>
+
+            <!--Card Container-->
+            <div class="flex flex-col">
+                
+                <div class="text-right pr-4 mb-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                    Lab Schedule
+                </div>
+
+                <!--Card Content-->
+                <div class="bg-[#5c0a0a] rounded-[1.5rem] overflow-hidden shadow-xl text-white">
+
+                    <div class="p-8 grid grid-cols-1 sm:grid-cols-3 gap-x-12 gap-y-6 text-[12px] uppercase">
+
+                        <div class="space-y-1">
+                            <p class="opacity-50 font-semibold">Name of the Teacher:</p>
+                            <div class="border-b border-white/30 pb-1"><%= schedule["teacher_name"] %></div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <p class="opacity-50 font-semibold">Class Time:</p>
+                            <div class="border-b border-white/30 pb-1"><%= schedule["class_time"] %></div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <p class="opacity-50 font-semibold">Class Lab Schedule:</p>
+                            <div class="border-b border-white/30 pb-1"><%= schedule["lab_schedule"] %></div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <p class="opacity-50 font-semibold">Class Code:</p>
+                            <div class="border-b border-white/30 pb-1"><%= schedule["class_code"] %></div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <p class="opacity-50 font-semibold">Classroom #:</p>
+                            <div class="border-b border-white/30 pb-1"><%= schedule["classroom_number"] %></div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <p class="opacity-50 font-semibold">Course:</p>
+                            <div class="border-b border-white/30 pb-1"><%= schedule["course"] %></div>
+                        </div>
+
+                    </div>
+
+                    <!--Card Buttons-->
+                    <div class="bg-[#3d0808] px-8 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+                        <div class="text-[11px] font-bold uppercase tracking-wider">
+                            <span>Status: <span class="text-yellow-500"><%= schedule["status"] %></span></span>
+                        </div>
+
+                        <div class="flex space-x-3">
+                            <button type="button"
+                            class="bg-[#22c55e] hover:bg-green-600 px-10 py-1.5 rounded-full text-[10px] font-black uppercase transition-all shadow-md"
+                            data-id="<%= schedule["schedule_id"] %>"
+                            data-teacher="<%= schedule["teacher_name"] %>"
+                            data-time="<%= schedule["class_time"] %>"
+                            data-lab="<%= schedule["lab_schedule"] %>"
+                            data-code="<%= schedule["class_code"] %>"
+                            data-room="<%= schedule["classroom_number"] %>"
+                            data-course="<%= schedule["course"] %>"
+                            data-status="<%= schedule["status"] %>"
+                            onclick="openUpdateModal(this)">
+                            Edit
+                            </button>
+                            <button type="button"
+                            class="bg-red-500 hover:bg-red-600 px-6 py-1.5 rounded-full text-[10px] font-black uppercase transition-all shadow-md"
+                            data-id="<%= schedule["schedule_id"] %>"
+                            onclick="openDeleteModal(this)">
+                            Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <% end %>
+            <% end %>
+
+            <!-- Evening schedule section -->
+            <h2 class="text-xl font-black text-[#5c0a0a] mt-16 mb-8">Evening (5:30PM-9:30PM)</h2>
+            <% @schedules.each do |schedule| %>
+            <% start_time_str = schedule["class_time"].split("-")[0].strip %>
+            <% start_time_obj = Time.parse(start_time_str) %>
+            <% if start_time_obj.hour == 17 && start_time_obj.min >= 30 || (start_time_obj.hour > 17 && start_time_obj.hour <= 21) %>
+
+            <!--Card Container-->
+            <div class="flex flex-col">
+                
+                <div class="text-right pr-4 mb-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                    Lab Schedule
+                </div>
+
+                <!--Card Content-->
+                <div class="bg-[#5c0a0a] rounded-[1.5rem] overflow-hidden shadow-xl text-white">
+
+                    <div class="p-8 grid grid-cols-1 sm:grid-cols-3 gap-x-12 gap-y-6 text-[12px] uppercase">
+
+                        <div class="space-y-1">
+                            <p class="opacity-50 font-semibold">Name of the Teacher:</p>
+                            <div class="border-b border-white/30 pb-1"><%= schedule["teacher_name"] %></div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <p class="opacity-50 font-semibold">Class Time:</p>
+                            <div class="border-b border-white/30 pb-1"><%= schedule["class_time"] %></div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <p class="opacity-50 font-semibold">Class Lab Schedule:</p>
+                            <div class="border-b border-white/30 pb-1"><%= schedule["lab_schedule"] %></div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <p class="opacity-50 font-semibold">Class Code:</p>
+                            <div class="border-b border-white/30 pb-1"><%= schedule["class_code"] %></div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <p class="opacity-50 font-semibold">Classroom #:</p>
+                            <div class="border-b border-white/30 pb-1"><%= schedule["classroom_number"] %></div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <p class="opacity-50 font-semibold">Course:</p>
+                            <div class="border-b border-white/30 pb-1"><%= schedule["course"] %></div>
+                        </div>
+
+                    </div>
+
+                    <!--Card Buttons-->
+                    <div class="bg-[#3d0808] px-8 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+                        <div class="text-[11px] font-bold uppercase tracking-wider">
+                            <span>Status: <span class="text-yellow-500"><%= schedule["status"] %></span></span>
+                        </div>
+
+                        <div class="flex space-x-3">
+                            <button type="button"
+                            class="bg-[#22c55e] hover:bg-green-600 px-10 py-1.5 rounded-full text-[10px] font-black uppercase transition-all shadow-md"
+                            data-id="<%= schedule["schedule_id"] %>"
+                            data-teacher="<%= schedule["teacher_name"] %>"
+                            data-time="<%= schedule["class_time"] %>"
+                            data-lab="<%= schedule["lab_schedule"] %>"
+                            data-code="<%= schedule["class_code"] %>"
+                            data-room="<%= schedule["classroom_number"] %>"
+                            data-course="<%= schedule["course"] %>"
+                            data-status="<%= schedule["status"] %>"
+                            onclick="openUpdateModal(this)">
+                            Edit
+                            </button>
+                            <button type="button"
+                            class="bg-red-500 hover:bg-red-600 px-6 py-1.5 rounded-full text-[10px] font-black uppercase transition-all shadow-md"
+                            data-id="<%= schedule["schedule_id"] %>"
+                            onclick="openDeleteModal(this)">
+                            Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <% end %>
+            <% end %>
+
+        </div>
+
+    </main>
+
+</body> 
+
+</html>

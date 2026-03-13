@@ -1,0 +1,121 @@
+<!-- Update Schedule Modal -->
+<div id="updateScheduleModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
+  <div class="bg-[#5c0a0a] rounded-xl w-11/12 max-w-3xl p-6 text-white relative">
+    
+    <!-- Modal Header -->
+    <h2 class="text-xl font-bold mb-4">Update Schedule</h2>
+    
+    <!-- Modal Form -->
+    <form id="updateScheduleForm" class="grid grid-cols-1 md:grid-cols-2 gap-4" method="POST" action="/update-schedule">
+
+      <!-- Hidden ID -->
+      <input type="hidden" id="update_schedule_id" name="schedule_id">
+
+      <!-- Teacher Name -->
+      <div>
+        <label class="block text-sm font-semibold mb-1">Name of the Teacher</label>
+        <input required type="text" id="update_teacher_name" name="teacher_name" class="w-full rounded-md p-2 text-black">
+      </div>
+
+      <!-- Class Time -->
+      <div>
+        <label class="block text-sm font-semibold mb-1">Class Time</label>
+        <select required id="update_class_time" name="class_time" class="w-full rounded-md p-2 text-black">
+            <option disabled>Select time</option>
+            <option value="8:00 AM - 10:00 AM">8:00 AM - 10:00 AM</option>
+            <option value="10:00 AM - 12:00 PM">10:00 AM - 12:00 PM</option>
+            <option value="1:30 PM - 3:30 PM">1:30 PM - 3:30 PM</option>
+            <option value="3:30 PM - 5:30 PM">3:30 PM - 5:30 PM</option>
+            <option value="5:30 PM - 7:30 PM">5:30 PM - 7:30 PM</option>
+            <option value="7:30 PM - 9:30 PM">7:30 PM - 9:30 PM</option>
+        </select>
+      </div>
+
+      <!-- Lab Schedule -->
+      <div>
+        <label class="block text-sm font-semibold mb-1">Class Lab Schedule</label>
+        <select required id="update_lab_schedule" name="lab_schedule" class="w-full rounded-md p-2 text-black">
+            <option disabled>Select schedule</option>
+            <option value="MON-WED">MON-WED</option>
+            <option value="THU-SAT">THU-SAT</option>
+        </select>
+      </div>
+
+      <!-- Class Code -->
+      <div>
+        <label class="block text-sm font-semibold mb-1">Class Code</label>
+        <input required type="text" id="update_class_code" name="class_code" class="w-full rounded-md p-2 text-black">
+      </div>
+
+      <!-- Classroom -->
+      <div>
+        <label class="block text-sm font-semibold mb-1">Classroom</label>
+        <select required id="update_classroom" name="classroom" class="w-full rounded-md p-2 text-black">
+            <option disabled>Select classroom</option>
+            <option value="BE105">BE105</option>
+            <option value="BE106">BE106</option>
+        </select>
+      </div>
+
+      <!-- Course -->
+      <div>
+        <label class="block text-sm font-semibold mb-1">Course</label>
+        <input required type="text" id="update_course" name="course" class="w-full rounded-md p-2 text-black">
+      </div>
+
+      <!-- Status -->
+      <div>
+        <label class="block text-sm font-semibold mb-1">Status</label>
+        <select required id="update_status" name="status" class="w-full rounded-md p-2 text-black">
+          <option disabled >Select status</option>
+          <option value="tentative">Tentative</option>
+          <option value="confirmed">Confirmed</option>
+        </select>
+      </div>
+
+      <!-- Buttons -->
+      <div class="md:col-span-2 flex justify-end space-x-2 mt-4">
+        <button type="button" onclick="closeUpdateModal()" class="px-4 py-2 rounded-lg border border-white hover:bg-white hover:text-[#5c0a0a] transition">
+          Cancel
+        </button>
+        <button name="updateschedulebtn" type="submit" class="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 transition">
+          Update
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
+<script>
+// schedule.js
+// Handles opening the update modal and populating its fields
+
+function openUpdateModal(button) {
+
+  // Show modal
+  document.getElementById('updateScheduleModal').classList.remove('hidden');
+
+  // Populate modal fields from button dataset
+  document.getElementById('update_schedule_id').value = button.dataset.id;
+  document.getElementById('update_teacher_name').value = button.dataset.teacher;
+  document.getElementById('update_class_time').value = button.dataset.time;
+  document.getElementById('update_lab_schedule').value = button.dataset.lab;
+  document.getElementById('update_class_code').value = button.dataset.code;
+  document.getElementById('update_classroom').value = button.dataset.room;
+  document.getElementById('update_course').value = button.dataset.course;
+  document.getElementById('update_status').value = button.dataset.status;
+}
+
+function closeUpdateModal() {
+  document.getElementById('updateScheduleModal').classList.add('hidden');
+}
+
+// Optional: Hide modal when clicking outside
+window.addEventListener('click', function(event) {
+  const modal = document.getElementById('updateScheduleModal');
+  if (event.target === modal) {
+    closeUpdateModal();
+  }
+});
+
+</script>

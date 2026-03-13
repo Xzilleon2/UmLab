@@ -1,0 +1,60 @@
+<!-- Delete Schedule Modal -->
+<div id="deleteScheduleModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
+  <div class="bg-[#5c0a0a] rounded-xl w-11/12 max-w-md p-6 text-white relative">
+
+    <!-- Header -->
+    <h2 class="text-xl font-bold mb-4 text-center">Delete Schedule</h2>
+
+    <!-- Message -->
+    <p class="text-sm text-center mb-6">
+      Are you sure you want to delete this schedule?
+      <br>
+      <span class="text-yellow-400 font-semibold">This action cannot be undone.</span>
+    </p>
+
+    <!-- Delete Form -->
+    <form method="POST" action="/delete-schedule" class="flex justify-center gap-4">
+
+      <!-- Hidden Schedule ID -->
+      <input type="hidden" id="delete_schedule_id" name="schedule_id">
+
+      <button type="button"
+      onclick="closeDeleteModal()"
+      class="px-4 py-2 rounded-lg border border-white hover:bg-white hover:text-[#5c0a0a] transition">
+        Cancel
+      </button>
+
+      <button name="deleteschedulebtn"
+      type="submit"
+      class="px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 transition">
+        Delete
+      </button>
+
+    </form>
+
+  </div>
+</div>
+<script>
+    function openDeleteModal(button){
+
+    document.getElementById("delete_schedule_id").value = button.dataset.id;
+
+    document.getElementById("deleteScheduleModal").classList.remove("hidden");
+
+    }
+
+    function closeDeleteModal(){
+    document.getElementById("deleteScheduleModal").classList.add("hidden");
+    }
+
+    // Close if clicking outside
+    window.addEventListener("click", function(event){
+
+    const deleteModal = document.getElementById("deleteScheduleModal");
+
+    if(event.target === deleteModal){
+        closeDeleteModal();
+    }
+
+    });    
+</script>

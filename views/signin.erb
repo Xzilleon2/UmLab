@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<%= erb :"includes/head" %>
+
+<% if session[:message] %>
+  <script>
+    alert("<%= session[:message] %>");
+  </script>
+  <% session[:message] = nil %>
+<% end %>
+<body>
+    <main class="relative min-h-screen font-sans overflow-hidden">
+
+        <!-- ================= SIGN IN PAGE ================= -->
+        <div id="signin-page" class="flex min-h-screen transition-all duration-500 ease-in-out translate-x-0">
+
+            <!-- Left Sidebar -->
+            <section class="hidden md:flex w-1/3 bg-[#5c0a0a] flex-col justify-between p-10 text-white">
+
+                <!-- Logo -->
+                <div>
+                    <a href="/index">
+                    <img src="/assets/imgs/UMLab_Logo.svg" alt="UMLab Logo" class="h-8 w-auto">
+                    </a>
+                </div>
+
+                <!-- Welcome Content -->
+                <div class="space-y-8 text-center">
+                    <h1 class="text-5xl font-extrabold leading-tight">Welcome Back!</h1>
+
+                    <p class="text-sm italic opacity-80 leading-relaxed max-w-xs mx-auto">
+                        "A good university laboratory is not just a room filled with equipment—it's a place where curiosity is tested, failures are studied, and discoveries are born."
+                    </p>
+
+                    <div class="flex justify-center">
+                        <button id="show-signup" type="button"  class="px-10 py-2 border border-white rounded-2xl hover:bg-white hover:text-[#5c0a0a] transition-all duration-300">
+                            Sign Up
+                        </button>
+                    </div>
+                </div>
+
+                <div></div>
+            </section>
+
+            <!-- Right Content -->
+            <section class="flex-1 bg-[#fcfcfc] flex flex-col items-center justify-center p-6">
+
+                <h2 class="text-6xl font-black text-[#3d0808] text-center mb-12">
+                    Sign in to UMLab
+                </h2>
+
+                <div class="w-full max-w-sm">
+                    <form action="/login" method="POST" class="space-y-4">
+
+                        <!-- Email -->
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-white">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <input type="email" placeholder="EMAIL" name="signin_email"
+                                class="w-full bg-[#5c0a0a] text-white pl-12 pr-4 py-4 rounded-full focus:outline-none focus:ring-2 focus:ring-red-400 text-sm tracking-widest font-semibold">
+                        </div>
+
+                        <!-- Password -->
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-white">
+                                <span class="font-bold text-lg underline">***</span>
+                            </div>
+                            <input type="password" placeholder="PASSWORD" name="signin_password"
+                                class="w-full bg-[#5c0a0a] text-white pl-12 pr-4 py-4 rounded-full focus:outline-none focus:ring-2 focus:ring-red-400 uppercase text-sm tracking-widest font-semibold">
+                        </div>
+
+                        <div class="text-center mt-2">
+                            <a href="#" class="text-gray-500 text-sm hover:underline">
+                                Forgot your Password?
+                            </a>
+                        </div>
+
+                        <div class="flex justify-center mt-12">
+                            <button name="signinbtn" type="submit"
+                                class="px-10 py-2 border border-[#3d0808] text-[#3d0808] rounded-2xl hover:bg-[#3d0808] hover:text-white transition-all font-medium text-lg">
+                                Sign in
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </section>
+        </div>
+
+
+
+        <!-- ================= SIGN UP PAGE ================= -->
+        <div id="signup-page" class="flex min-h-screen transition-all duration-500 ease-in-out translate-x-full absolute inset-0">
+
+            <!-- Left Form Side -->
+            <section class="flex-1 bg-[#fcfcfc] flex flex-col items-center justify-center p-5 relative">
+
+                <!-- Logo -->
+                <div class="absolute top-8 left-8">
+                    <img src="/assets/imgs/UMLab_Logo.svg" alt="UMLab Logo" class="h-8 w-auto">
+                </div>
+
+                <div class="w-full mt-10 flex flex-col items-center">
+                    <h2 class="text-6xl font-black text-[#3d0808] text-center mb-12 tracking-tight">
+                        Sign up to UMLab
+                    </h2>
+
+                    <div class="w-full max-w-md">
+                        <form action="/register" method="POST" class="space-y-5">
+
+                            <!-- Email-->
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                                <input required type="email" placeholder="LABORATORY EMAIL" name="signup_email" required class="w-full bg-[#5c0a0a] text-white placeholder-gray-300 pl-12 pr-4 py-4 rounded-full focus:outline-none focus:ring-2 focus:ring-red-400 text-sm tracking-widest font-semibold">
+                            </div>
+
+                            <!-- Code-->
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-white">
+                                    <span class="font-bold text-lg underline">***</span>
+                                </div>
+                                <input required type="text" placeholder="VERIFICATION CODE" name="signup_code" required class="w-full bg-[#5c0a0a] text-white placeholder-gray-300 pl-12 pr-4 py-4 rounded-full focus:outline-none focus:ring-2 focus:ring-red-400 uppercase text-sm tracking-widest font-semibold">
+                            </div>
+
+                            <!-- Password -->
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-white">
+                                    <span class="font-bold text-lg underline">***</span>
+                                </div>
+                                <input required type="password" placeholder="PASSWORD" name="signup_password" required class="w-full bg-[#5c0a0a] text-white placeholder-gray-300 pl-12 pr-4 py-4 rounded-full focus:outline-none focus:ring-2 focus:ring-red-400 uppercase text-sm tracking-widest font-semibold">
+                            </div>
+
+                            <!-- Laboratory -->
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.642.321a2 2 0 01-1.583 0l-.642-.321a6 6 0 00-3.86-.517l-2.387.477a2 2 0 00-1.022.547l-.34.34a2 2 0 000 2.829l1.245 1.245a2 2 0 002.829 0l6.245-6.245" />
+                                    </svg>
+                                </div>
+                                <select required name="signup_laboratory"  class="w-full bg-[#5c0a0a] text-white pl-12 pr-10 py-4 rounded-full focus:outline-none focus:ring-2 focus:ring-red-400 uppercase text-sm tracking-widest font-semibold appearance-none cursor-pointer">
+                                    <option value="" disabled selected>LABORATORY</option>
+                                    <option value="chem">Chemistry Lab</option>
+                                    <option value="phys">Physics Lab</option>
+                                    <option value="bio">Biology Lab</option>
+                                </select>
+                                <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-white">
+                                    <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="flex justify-center mt-12">
+                                <button name="signupbtn" type="submit" class="px-10 py-2 border border-[#3d0808] text-[#3d0808] rounded-2xl hover:bg-[#3d0808] hover:text-white transition-all font-medium text-lg">
+                                    Sign Up
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- Right Sidebar -->
+            <section class="hidden md:flex w-1/3 bg-[#5c0a0a] flex-col p-12 text-white justify-center space-y-12">
+
+                <h1 class="text-5xl font-extrabold text-center">
+                    Hello There!
+                </h1>
+
+                <p class="text-sm italic opacity-80 leading-relaxed max-w-xs mx-auto text-center">
+                    "A good university laboratory is not just a room filled with equipment—it's a place where curiosity is tested, failures are studied, and discoveries are born."
+                </p>
+
+                <div class="flex justify-center">
+                    <a id="show-signin" href="javascript:void(0)" href="/" class="px-10 py-2 border border-white rounded-2xl hover:bg-white hover:text-[#5c0a0a] transition-all text-sm uppercase tracking-widest">
+                        Sign In
+                    </a>
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const signinPage = document.getElementById('signin-page');
+            const signupPage = document.getElementById('signup-page');
+
+            document.body.addEventListener('click', function(e) {
+
+                const target = e.target.closest('#show-signup, #show-signin');
+                if (!target) return;
+
+                if (target.id === 'show-signup') {
+
+                    // Slide sign in left
+                    signinPage.classList.add('-translate-x-full');
+                    signinPage.classList.remove('translate-x-0');
+
+                    // Bring sign up from right
+                    signupPage.classList.remove('translate-x-full');
+                    signupPage.classList.add('translate-x-0');
+
+                }
+
+                if (target.id === 'show-signin') {
+
+                    // Slide sign up right
+                    signupPage.classList.add('translate-x-full');
+                    signupPage.classList.remove('translate-x-0');
+
+                    // Bring sign in back
+                    signinPage.classList.remove('-translate-x-full');
+                    signinPage.classList.add('translate-x-0');
+
+                }
+
+            });
+
+        });
+    </script>
+</body>
+</html>

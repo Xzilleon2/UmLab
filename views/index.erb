@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <!-- Head section: includes meta tags, styles, and scripts -->
+  <%= erb :"includes/head" %>
+  <!-- Body: Main layout container -->
+<body class="bg-[#F8F7F4] flex flex-col items-center justify-center min-h-screen font-sans text-[#4A0404]">
+
+  <!-- Logo and quick access to sign-in page -->
+  <div class="absolute top-8 left-8 flex items-center gap-1">
+        <div>
+            <a href="/signin">
+              <img src="/assets/imgs/UMLab_Logo.svg" alt="UMLab Logo" class="h-10 w-auto">
+            </a>
+        </div>
+  </div>
+
+  <!-- Main welcome section -->
+  <div class="text-center">
+    <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-4">
+      Welcome to UMLab!
+    </h1>
+    
+    <p class="text-sm md:text-base italic mb-12 opacity-80">
+      -Reserve your equipment now-
+    </p>
+
+    <!-- User role selection buttons -->
+    <div class="flex flex-col md:flex-row gap-6 justify-center items-center">
+      <form method="POST" action="/set-user-type" class="w-64 md:w-auto">
+        <input type="hidden" name="user_type" value="student">
+        <button type="submit" class="w-full bg-[#600000] hover:bg-[#4A0000] text-white font-medium py-4 px-16 rounded-full text-lg transition-all uppercase tracking-wide">
+          Student
+        </button>
+      </form>
+      
+      <form method="POST" action="/set-user-type" class="w-64 md:w-auto">
+        <input type="hidden" name="user_type" value="teacher">
+        <button type="submit" class="w-full bg-[#600000] hover:bg-[#4A0000] text-white font-medium py-4 px-16 rounded-full text-lg transition-all uppercase tracking-wide">
+          Instructor
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- End of main layout -->
+</body>
+</html>

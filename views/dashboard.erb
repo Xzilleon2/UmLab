@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%= erb :"includes/head" %>
+
+<% if session[:dashboard_message] %>
+  <script>
+    alert("<%= session[:dashboard_message] %>");
+  </script>
+  <% session[:dashboard_message] = nil %>
+<% end %>
+
+<body class="bg-[#fcfcfc] font-sans">
+    <main class="flex min-h-screen">
+
+        <!-- Sidebar -->
+        <aside class="w-64 bg-[#5c0a0a] text-white flex flex-col p-6 space-y-10 flex-none">
+
+            <!-- Logo -->
+            <div class="flex flex-col items-center pb-6">
+                <img src="/assets/imgs/UMLab_Logo.svg" alt="UMLab Logo" class="w-40 h-auto">
+            </div>
+
+            <nav class="flex-1 space-y-2">
+                <a href="/dashboard" class="flex items-center space-x-3 bg-[#3d0808] p-3 rounded-lg border-l-4 border-yellow-500 transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                    <span class="font-semibold">Dashboard</span>
+                </a>
+                <a href="/reservation" class="flex items-center space-x-3 p-3 text-gray-300 hover:bg-[#3d0808] hover:text-white rounded-lg transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    <span>Reservation</span>
+                </a>
+                <a href="/schedule" class="flex items-center space-x-3 p-3 text-gray-300 hover:bg-[#3d0808] hover:text-white rounded-lg transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span>Schedule</span>
+                </a>
+                <a href="/students" class="flex items-center space-x-3 p-3 text-gray-300 hover:bg-[#3d0808] hover:text-white rounded-lg transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    <span>Students</span>
+                </a>
+                <a href="/logout" class="flex items-center space-x-3 p-3 text-gray-300 hover:bg-red-800 hover:text-white rounded-lg transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                    <span>Logout</span>
+                </a>
+            </nav>
+
+            <div class="flex items-center space-x-3 bg-[#3d0808] p-4 rounded-xl border border-red-900">
+                <div class="bg-gray-200 rounded-lg p-1">
+                    <svg class="w-6 h-6 text-gray-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+                </div>
+                <div>
+                    <p class="text-xs font-bold leading-none">Admin</p>
+                    <p class="text-[10px] opacity-60">Physics Laboratory</p>
+                </div>
+            </div>
+        </aside>
+
+        <div class="flex-1 p-8 overflow-y-auto">
+            
+            <header class="flex justify-between items-center mb-8">
+                <div class="flex items-center space-x-3">
+                    <svg class="w-8 h-8 text-[#5c0a0a]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    <h1 class="text-3xl font-black text-yellow-500 uppercase tracking-tight">Dashboard - Physics Laboratory</h1>
+                </div>
+            </header>
+
+        <!-- Morning Contents-->
+        <h2 class="text-xl font-bold text-[#5c0a0a] mb-6">Morning (8:00 AM - 12:00 PM)</h2>
+        <div class="grid grid-cols-1 mb-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <% @schedules.each do |schedule| %>
+                
+                <% start_time_str = schedule["class_time"].split("-")[0].strip rescue nil %>
+                <% next if start_time_str.nil? %>
+                <% start_time_obj = Time.parse(start_time_str) %>
+
+                <% if start_time_obj.hour >= 8 && start_time_obj.hour < 12 %>
+                    
+                    <form action="/attendance" method="POST" class="bg-[#5c0a0a] rounded-3xl p-6 text-white shadow-xl flex flex-col items-center">
+
+                        <input type="hidden" name="schedule_id" value="<%= schedule['schedule_id'] %>">
+
+                        <h3 class="text-2xl font-black mb-1"><%= schedule["teacher_name"] %></h3>
+
+                        <p class="text-sm opacity-80 mb-6 font-semibold">
+                        <%= schedule["class_code"] %> (<%= schedule["class_time"] %>)
+                        </p>
+
+                        <div class="bg-yellow-500 w-full py-6 rounded-2xl flex flex-col items-center justify-center text-[#5c0a0a] mb-6">
+                        <p class="text-[10px] uppercase font-bold leading-none mb-1">Total Hours:</p>
+                        <p class="text-4xl font-black leading-none italic">2 HOURS</p>
+                        <input hidden name="total_hours" value=2>
+                        </div>
+
+                        <!-- Hidden fields -->
+                        <input type="hidden" name="schedule_id" value="<%= schedule['schedule_id'] %>">
+                        <input type="hidden" name="total_hours" value="2">
+                        <input type="hidden" name="teacher_name" value="<%= schedule['teacher_name'] %>">
+
+                        <div class="w-full flex justify-between items-center text-[10px] font-bold">
+                            <span class="opacity-80">Status: 
+                                <span id="status-span-<%= schedule['schedule_id'] %>" class="text-yellow-400">Pending</span>
+                            </span>
+                            <div class="flex space-x-2">
+                                <button name="presentbtn" type="submit" onclick="updateStatus(<%= schedule['schedule_id'] %>, 'Present')"
+                                    class="bg-green-500 px-4 py-1 rounded-full text-white shadow-md">
+                                    Present
+                                </button>
+                                <button name="absentbtn" type="submit" onclick="updateStatus(<%= schedule['schedule_id'] %>, 'Absent')"
+                                    class="border border-white border-opacity-30 px-4 py-1 rounded-full text-white opacity-50">
+                                    Absent
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    
+            <% end %> <% end %> </div>
+
+        <!-- Afternoon Contents-->
+        <h2 class="text-xl font-bold text-[#5c0a0a] mb-6">Afternoon (1:30 AM - 5:30 PM)</h2>
+        <div class="grid grid-cols-1 mb-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <% @schedules.each do |schedule| %>
+                
+                <% start_time_str = schedule["class_time"].split("-")[0].strip rescue nil %>
+                <% next if start_time_str.nil? %>
+                <% start_time_obj = Time.parse(start_time_str) %>
+
+                <% if start_time_obj.hour >= 13 && start_time_obj.hour < 18 %>
+                    
+                    <form action="/attendance" method="POST" class="bg-[#5c0a0a] rounded-3xl p-6 text-white shadow-xl flex flex-col items-center">
+
+                        <input type="hidden" name="schedule_id" value="<%= schedule['schedule_id'] %>">
+
+                        <h3 class="text-2xl font-black mb-1"><%= schedule["teacher_name"] %></h3>
+
+                        <p class="text-sm opacity-80 mb-6 font-semibold">
+                        <%= schedule["class_code"] %> (<%= schedule["class_time"] %>)
+                        </p>
+
+                        <div class="bg-yellow-500 w-full py-6 rounded-2xl flex flex-col items-center justify-center text-[#5c0a0a] mb-6">
+                        <p class="text-[10px] uppercase font-bold leading-none mb-1">Total Hours:</p>
+                        <p class="text-4xl font-black leading-none italic">2 HOURS</p>
+                        <input hidden name="total_hours" value=2>
+                        </div>
+                        
+                        <!-- Hidden fields -->
+                        <input type="hidden" name="schedule_id" value="<%= schedule['schedule_id'] %>">
+                        <input type="hidden" name="total_hours" value="2">
+                        <input type="hidden" name="teacher_name" value="<%= schedule['teacher_name'] %>">
+
+                        <div class="w-full flex justify-between items-center text-[10px] font-bold">
+                            <span class="opacity-80">Status: 
+                                <span id="status-span-<%= schedule['schedule_id'] %>" class="text-yellow-400">Pending</span>
+                            </span>
+                            <div class="flex space-x-2">
+                                <button name="presentbtn" type="submit" onclick="updateStatus(<%= schedule['schedule_id'] %>, 'Present')"
+                                    class="bg-green-500 px-4 py-1 rounded-full text-white shadow-md">
+                                    Present
+                                </button>
+                                <button name="absentbtn" type="submit" onclick="updateStatus(<%= schedule['schedule_id'] %>, 'Absent')"
+                                    class="border border-white border-opacity-30 px-4 py-1 rounded-full text-white opacity-50">
+                                    Absent
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    
+            <% end %> <% end %> </div>
+
+        <!-- Evening Contents-->
+        <h2 class="text-xl font-bold text-[#5c0a0a] mb-6">Evening (5:30 AM - 9:30 PM)</h2>
+        <div class="grid grid-cols-1 mb-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <% @schedules.each do |schedule| %>
+                
+                <% start_time_str = schedule["class_time"].split("-")[0].strip rescue nil %>
+                <% next if start_time_str.nil? %>
+                <% start_time_obj = Time.parse(start_time_str) %>
+
+                <% if start_time_obj.hour >= 17 && start_time_obj.hour < 22 %>
+                    
+                    <form action="/attendance" method="POST" class="bg-[#5c0a0a] rounded-3xl p-6 text-white shadow-xl flex flex-col items-center">
+
+                        <input type="hidden" name="schedule_id" value="<%= schedule['schedule_id'] %>">
+
+                        <h3 class="text-2xl font-black mb-1"><%= schedule["teacher_name"] %></h3>
+
+                        <p class="text-sm opacity-80 mb-6 font-semibold">
+                        <%= schedule["class_code"] %> (<%= schedule["class_time"] %>)
+                        </p>
+
+                        <div class="bg-yellow-500 w-full py-6 rounded-2xl flex flex-col items-center justify-center text-[#5c0a0a] mb-6">
+                        <p class="text-[10px] uppercase font-bold leading-none mb-1">Total Hours:</p>
+                        <p class="text-4xl font-black leading-none italic">2 HOURS</p>
+                        <input hidden name="total_hours" value=2>
+                        </div>
+
+                        <!-- Hidden fields -->
+                        <input type="hidden" name="schedule_id" value="<%= schedule['schedule_id'] %>">
+                        <input type="hidden" name="total_hours" value="2">
+                        <input type="hidden" name="teacher_name" value="<%= schedule['teacher_name'] %>">
+
+                        <div class="w-full flex justify-between items-center text-[10px] font-bold">
+                            <span class="opacity-80">Status: 
+                                <span id="status-span-<%= schedule['schedule_id'] %>" class="text-yellow-400">Pending</span>
+                            </span>
+                            <div class="flex space-x-2">
+                                <button name="presentbtn" type="submit" onclick="updateStatus(<%= schedule['schedule_id'] %>, 'Present')"
+                                    class="bg-green-500 px-4 py-1 rounded-full text-white shadow-md">
+                                    Present
+                                </button>
+                                <button name="absentbtn" type="submit" onclick="updateStatus(<%= schedule['schedule_id'] %>, 'Absent')"
+                                    class="border border-white border-opacity-30 px-4 py-1 rounded-full text-white opacity-50">
+                                    Absent
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    
+            <% end %> <% end %> </div>
+        </div>
+
+        <!-- Scripts -->
+        <script>
+            // 1. Function to update the UI and save to Local Storage
+            function updateStatus(scheduleId, status) {
+                const statusSpan = document.getElementById(`status-span-${scheduleId}`);
+                if (!statusSpan) return;
+
+                // Update the text
+                statusSpan.textContent = status;
+
+                // Reset all color classes
+                statusSpan.classList.remove('text-red-500', 'text-yellow-400', 'text-green-500');
+                
+                // Apply the correct color
+                if (status === 'Present') {
+                    statusSpan.classList.add('text-green-500');
+                } else if (status === 'Absent') {
+                    statusSpan.classList.add('text-red-500');
+                }
+
+                // SAVE IT: Store the status in the browser's memory
+                localStorage.setItem(`attendance_status_${scheduleId}`, status);
+            }
+
+            // 2. Automatically restore saved statuses when the page loads
+            document.addEventListener("DOMContentLoaded", function() {
+                // Find all spans on the page that have an ID starting with 'status-span-'
+                const allStatusSpans = document.querySelectorAll('[id^="status-span-"]');
+                
+                allStatusSpans.forEach(span => {
+                    // Extract the schedule ID from the span's ID (e.g., "status-span-5" -> "5")
+                    const scheduleId = span.id.replace('status-span-', '');
+                    
+                    // Look for a saved status in local storage
+                    const savedStatus = localStorage.getItem(`attendance_status_${scheduleId}`);
+                    
+                    // If we found one, apply it!
+                    if (savedStatus) {
+                        updateStatus(scheduleId, savedStatus);
+                    }
+                });
+            });
+        </script>
+    </main>
+</body>
+</html>

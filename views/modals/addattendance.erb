@@ -1,0 +1,117 @@
+<!-- Add Excel Upload Modal -->
+<div id="addExcelModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
+
+  <div class="bg-[#5c0a0a] rounded-xl w-1/2 max-w-2xl p-6 text-white relative">
+
+    <!-- Modal Header -->
+    <h2 class="text-xl font-bold mb-4">Student Attendance</h2>
+
+    <!-- Modal Form -->
+    <form
+      id="addExcelForm"
+      class="flex flex-col gap-4"
+      method="POST"
+      action="/add-excel"
+      enctype="multipart/form-data"
+    >
+
+      <!-- 2x2 Container -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <!-- Professor Name -->
+        <div>
+          <label class="block text-sm font-semibold mb-1">Professor Name</label>
+          <input
+            type="text"
+            name="prof_name"
+            required
+            class="w-full rounded-md p-2 text-black"
+            placeholder="Enter professor name"
+          >
+        </div>
+
+        <!-- Course Code -->
+        <div>
+          <label class="block text-sm font-semibold mb-1">Course Code</label>
+          <input
+            type="text"
+            name="course_code"
+            required
+            class="w-full rounded-md p-2 text-black"
+            placeholder="Enter course code"
+          >
+        </div>
+
+        <!-- Course Title -->
+        <div>
+          <label class="block text-sm font-semibold mb-1">Course Title</label>
+          <input
+            type="text"
+            name="course_title"
+            required
+            class="w-full rounded-md p-2 text-black"
+            placeholder="Enter course title"
+          >
+        </div>
+
+      <!-- Class Time -->
+      <div>
+        <label class="block text-sm font-semibold mb-1" for="classTime">Class Time</label>
+        <select required id="classTime" name="class_time" class="w-full rounded-md p-2 text-black">
+            <option value="" disabled selected>Select time</option>
+            <option value="8:00 AM - 10:00 AM">8:00 AM - 10:00 AM</option>
+            <option value="10:00 AM - 12:00 PM">10:00 AM - 12:00 PM</option>
+            <option value="1:30 AM - 3:30 PM">1:30 AM - 3:30 PM</option>
+            <option value="3:30 PM - 5:30 PM">3:30 PM - 5:30 PM</option>
+            <option value="5:30 PM - 7:30 PM">5:30 PM - 7:30 PM</option>
+            <option value="7:30 PM - 9:30 PM">7:30 PM - 9:30 PM</option>
+        </select>
+      </div>
+
+        <!-- Excel File Upload -->
+        <div>
+          <label class="block text-sm font-semibold mb-1">Excel File</label>
+          <input
+            type="file"
+            name="excel_file"
+            accept=".xlsx,.xls,.csv"
+            required
+            class="w-full rounded-md p-2 bg-white text-black"
+          >
+        </div>
+
+      </div>
+
+      <!-- Modal Buttons -->
+      <div class="md:col-span-2 flex justify-end space-x-2 mt-4">
+        <button
+          type="button"
+          onclick="closeExcelModal()"
+          class="px-4 py-2 rounded-lg border border-white hover:bg-white hover:text-[#5c0a0a] transition"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          name="addexcelbtn"
+          class="px-4 py-2 rounded-lg bg-green-500 hover:bg-green-600 transition"
+        >
+          Upload Excel
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<script>
+  // Open Modal
+  document.getElementById('open_addexcel').addEventListener('click', function() {
+    document.getElementById('addExcelModal').classList.remove('hidden')
+  })
+
+  // Close Modal
+  function closeExcelModal() {
+    document.getElementById('addExcelModal').classList.add('hidden')
+  }
+</script>

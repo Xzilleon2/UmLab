@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <!-- Head section: includes meta tags, styles, and scripts -->
+<%= erb :"includes/head" %>
+
+<body class="bg-[#fcfcfc] font-sans">
+    <!-- Main layout: sidebar and content -->
+    <main class="flex min-h-screen">
+
+        <!-- Sidebar navigation -->
+        <aside class="w-64 bg-[#5c0a0a] text-white flex flex-col p-6 space-y-10 flex-none sticky top-0 h-screen">
+            <!-- Logo section -->
+            <div class="flex flex-col items-center border-b border-red-900 pb-6">
+                <img src="/assets/imgs/UMLab_Logo.svg" alt="UMLab Logo" class="w-40 h-auto">
+            </div>
+
+            <!-- Navigation links -->
+            <nav class="flex-1 space-y-2">
+                <!-- Dashboard link -->
+                <a href="/dashboard" class="flex items-center space-x-3 p-3 text-gray-300 hover:bg-[#3d0808] hover:text-white rounded-lg transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                    <span>Dashboard</span>
+                </a>
+                <!-- Reservation link -->
+                <a href="/reservation" class="flex items-center space-x-3 p-3 text-gray-300 hover:bg-[#3d0808] hover:text-white rounded-lg transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    <span>Reservation</span>
+                </a>
+                <!-- Schedule link -->
+                <a href="/schedule" class="flex items-center space-x-3 p-3 text-gray-300 hover:bg-[#3d0808] hover:text-white rounded-lg transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span>Schedule</span>
+                </a>
+                <!-- Students link (active) -->
+                <a href="/students" class="flex items-center space-x-3 bg-[#3d0808] p-3 rounded-lg border-l-4 border-yellow-500 transition-all">
+                    <svg class="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    <span class="font-semibold text-yellow-500">Students</span>
+                </a>
+                <!-- Logout link -->
+                <a href="/logout" class="flex items-center space-x-3 p-3 text-gray-300 hover:bg-red-800 hover:text-white rounded-lg transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                    <span>Logout</span>
+                </a>
+            </nav>
+
+            <!-- Admin info section -->
+            <div class="flex items-center space-x-3 bg-[#3d0808] p-4 rounded-xl border border-red-900/50">
+                <div class="bg-gray-200 rounded-lg p-1 text-gray-600">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" /></svg>
+                </div>
+                <div>
+                    <p class="text-xs font-bold leading-none">Admin</p>
+                    <p class="text-[10px] opacity-60">Physics Laboratory</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main content area -->
+        <div class="flex-1 p-10 overflow-y-auto">
+            
+            <!-- Header: page title and filter -->
+            <header class="flex justify-between items-center mb-6">
+                <div class="flex items-center space-x-4">
+                    <!-- Page icon and title -->
+                    <svg class="w-10 h-10 text-[#5c0a0a]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    <h1 class="text-4xl font-black text-yellow-500 uppercase tracking-tight">Students - Physics Laboratory</h1>
+                </div>
+                
+                <!-- Search Bar -->
+                <div class="relative w-64">
+                <input
+                    type="text"
+                    id="searchFiles"
+                    placeholder="Search..."
+                    class="w-full bg-white border-2 border-gray-200 rounded-xl py-2 pl-10 pr-4 font-bold text-[#3d0808] focus:outline-none focus:border-yellow-500 transition-all"
+                >
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"/>
+                    </svg>
+                </div>
+                </div>
+            </header>
+
+            <!-- add button -->
+            <div class="flex justify-end items-end mb-4">
+                <button id="open_addexcel" class="text-[#5c0a0a] text-xs font-bold flex items-center hover:underline">
+                    <span class="text-lg mr-1">+</span> Add
+                </button>
+            </div>
+
+            <!-- add Modal -->
+            <%= erb :"modals/addattendance", layout: false %>
+
+            <!-- Attendance list -->
+            <div class="space-y-10">
+                <div class="space-y-3">
+                    <p class="text-sm font-black text-[#5c0a0a] uppercase">Attendance Files</p>
+
+                        <% @files.each do |file| %>
+                        <div
+                            data-file-card
+                            data-course-code="<%= file['course_code'] %>"
+                            data-course-title="<%= file['course_title'] %>"
+                            data-prof-name="<%= file['prof_name'] %>"
+                            class="bg-red-700 rounded-lg p-4 flex justify-between items-center shadow-md transition-hover hover:bg-red-800"
+                        >
+                            <div class="flex flex-col">
+                            <span class="text-white font-black tracking-widest text-lg"><%= file['course_code'] %> - <%= file['course_title'] %></span>
+                            <span class="text-white text-sm">Professor: <%= file['prof_name'] %></span>
+                            </div>
+                            <a href="/files/<%= file['filename'] %>" download
+                            class="px-4 py-2 rounded-lg bg-white text-[#5c0a0a] font-bold hover:bg-gray-200 transition">
+                            Download
+                            </a>
+                        </div>
+                        <% end %>
+                </div>
+            </div>
+
+        </div>
+        
+        <script>
+            const searchInput = document.getElementById('searchFiles');
+            const fileCards = document.querySelectorAll('[data-file-card]');
+
+            searchInput.addEventListener('input', () => {
+                const query = searchInput.value.toLowerCase();
+                fileCards.forEach(card => {
+                const courseCode = card.dataset.courseCode.toLowerCase();
+                const courseTitle = card.dataset.courseTitle.toLowerCase();
+                const profName = card.dataset.profName.toLowerCase();
+                if (courseCode.includes(query) || courseTitle.includes(query) || profName.includes(query)) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+                });
+            });
+        </script>   
+    </main>
+</body>
+</html>

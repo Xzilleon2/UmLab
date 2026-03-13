@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%= erb :"includes/head" %>
+
+<% if session[:inventory_message] %>
+  <script>
+    alert("<%= session[:inventory_message] %>");
+  </script>
+  <% session[:inventory_message] = nil %>
+<% end %>
+
+<% if session[:status_message] %>
+  <script>
+    alert("<%= session[:status_message] %>");
+  </script>
+  <% session[:status_message] = nil %>
+<% end %>
+
+<body class="bg-[#fcfcfc] font-sans">
+  <main class="flex min-h-screen">
+    
+    <!-- SIDEBAR -->
+    <aside
+    class="w-64 bg-[#5c0a0a] text-white flex flex-col p-6 space-y-10 flex-none sticky top-0 h-screen"
+    >
+    <div class="flex flex-col items-center border-b border-red-900 pb-6">
+        <img
+        src="/assets/imgs/UMLab_Logo.svg"
+        alt="UMLab Logo"
+        class="w-40 h-auto"
+        />
+    </div>
+
+    <nav class="flex-1 space-y-2">
+        <!-- Dashboard -->
+        <a
+        href="/dashboard"
+        class="flex items-center space-x-3 p-3 text-gray-300 hover:bg-[#3d0808] hover:text-white rounded-lg transition-all"
+        >
+        <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+        >
+            <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+            />
+        </svg>
+        <span>Dashboard</span>
+        </a>
+
+        <!-- Reservation -->
+        <a
+        href="/reservation"
+        class="flex items-center space-x-3 bg-[#3d0808] p-3 rounded-lg border-l-4 border-yellow-500 transition-all"
+        >
+        <svg
+            class="w-5 h-5 text-yellow-500"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+        >
+            <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+            />
+        </svg>
+        <span class="font-semibold text-yellow-500">Reservation</span>
+        </a>
+
+        <!-- Schedule -->
+        <a
+        href="/schedule"
+        class="flex items-center space-x-3 p-3 text-gray-300 hover:bg-[#3d0808] hover:text-white rounded-lg transition-all"
+        >
+        <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+        >
+            <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+        </svg>
+        <span>Schedule</span>
+        </a>
+
+        <!-- Students -->
+        <a
+        href="/students"
+        class="flex items-center space-x-3 p-3 text-gray-300 hover:bg-[#3d0808] hover:text-white rounded-lg transition-all"
+        >
+        <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+        >
+            <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+            />
+        </svg>
+        <span>Students</span>
+        </a>
+
+        <!-- Logout -->
+        <a
+        href="/logout"
+        class="flex items-center space-x-3 p-3 text-gray-300 hover:bg-red-800 hover:text-white rounded-lg transition-all"
+        >
+        <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+        >
+            <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+            />
+        </svg>
+        <span>Logout</span>
+        </a>
+    </nav>
+
+    <!-- User Info -->
+    <div
+        class="flex items-center space-x-3 bg-[#3d0808] p-4 rounded-xl border border-red-900/50"
+    >
+        <div class="bg-gray-200 rounded-lg p-1 text-gray-600">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path
+            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+            />
+        </svg>
+        </div>
+
+        <div>
+        <p class="text-xs font-bold leading-none">Admin</p>
+        <p class="text-[10px] opacity-60">Physics Laboratory</p>
+        </div>
+    </div>
+    </aside>
+    
+    <!-- MAIN CONTENT -->
+    <div class="flex-1 p-10 overflow-y-auto">
+
+      <!-- TITLE -->
+      <header class="flex justify-between items-center mb-10">
+        <h1 class="text-4xl font-black text-yellow-500 uppercase">
+          Reservation - Physics Laboratory
+        </h1>
+      </header>
+
+      <!-- BUTTON CONTROLS -->
+      <div class="flex justify-between mb-6">
+        <div class="space-x-3">
+          <button
+            onclick="showReservations()"
+            class="bg-[#5c0a0a] text-white px-4 py-2 rounded-lg font-bold"
+          >
+            Reservations
+          </button>
+
+          <button
+            onclick="showInventory()"
+            class="bg-gray-800 text-white px-4 py-2 rounded-lg font-bold"
+          >
+            Inventory
+          </button>
+        </div>
+
+        <div class="space-x-3">
+            <div id="open_addinventory"  class="text-[#5c0a0a] cursor-pointer text-xs font-bold flex items-center hover:underline">
+                <span class="text-lg mr-1">+</span> Add
+            </div>
+        </div>
+      </div>
+
+      <!-- add Modal -->
+      <%= erb :"modals/addItem", layout: false %>
+
+      <!-- Edit and Delete Modal -->
+      <%= erb :"modals/update_delete_item", layout: false %>
+
+        <!-- RESERVATION TABLE -->
+        <div id="reservationTableContainer">
+            <div class="bg-white rounded-xl border shadow-lg p-4 overflow-x-auto">
+
+                <table id="reservationTable" class="min-w-full text-xs">
+                
+                <thead class="bg-gray-100 text-left font-bold">
+                    <tr>
+                    <th class="px-2 py-2">Name</th>
+                    <th class="px-2 py-2">Code</th>
+                    <th class="px-2 py-2">Course</th>
+                    <th class="px-2 py-2">Program</th>
+                    <th class="px-2 py-2">Date Use</th>
+                    <th class="px-2 py-2">Type</th>
+                    <th class="px-2 py-2">Materials</th>
+                    <th class="px-2 py-2">Status</th>
+                    <th class="px-2 py-2 text-center">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% if @reservations && @reservations.length > 0 %>
+                        <% @reservations.each do |reservation| %>
+                            <tr class="border-t">
+                                <td class="px-2 py-2"><%= reservation['name'] %></td>
+                                <td class="px-2 py-2"><%= reservation['class_code'] %></td>
+                                <td class="px-2 py-2"><%= reservation['course_title'] %></td>
+                                <td class="px-2 py-2"><%= reservation['program'] %></td>
+                                <td class="px-2 py-2"><%= reservation['date_of_use'] %></td>
+                                <td class="px-2 py-2"><span class="capitalize bg-blue-100 text-blue-800 px-2 py-1 rounded"><%= reservation['type'] %></span></td>
+                                <td class="px-2 py-2">
+                                    <% if reservation['material_name'] %>
+                                        <%= reservation['material_name'] %> (Qty: <%= reservation['quantity'] %>)
+                                    <% else %>
+                                        <span class="text-gray-500">No materials</span>
+                                    <% end %>
+                                </td>
+                                <td class="px-2 py-2">
+                                    <% status = reservation['status'] || 'pending' %>
+                                    <% status_color = case status
+                                        when 'approved' then 'bg-green-100 text-green-800'
+                                        when 'rejected', 'cancelled' then 'bg-red-100 text-red-800'
+                                        when 'returned' then 'bg-orange-100 text-orange-800'
+                                        else 'bg-yellow-100 text-yellow-800'
+                                      end %>
+                                    <span class="capitalize <%= status_color %> px-2 py-1 rounded text-[11px] font-semibold"><%= status %></span>
+                                </td>
+                                <td class="px-2 py-2">
+                                    <div class="flex justify-center gap-1">
+                                        <% if status != 'approved' %>
+                                            <form method="POST" action="/update-cart-status" style="display: inline;">
+                                                <input type="hidden" name="cart_id" value="<%= reservation['cart_id'] %>">
+                                                <input type="hidden" name="status" value="approved">
+                                                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white text-[10px] font-bold px-2 py-1 rounded">
+                                                    ✓
+                                                </button>
+                                            </form>
+                                        <% end %>
+                                        <% if status != 'cancelled' %>
+                                            <form method="POST" action="/update-cart-status" style="display: inline;">
+                                                <input type="hidden" name="cart_id" value="<%= reservation['cart_id'] %>">
+                                                <input type="hidden" name="status" value="cancelled">
+                                                <button type="submit" class="bg-red-600 hover:bg-red-700 text-white text-[10px] font-bold px-2 py-1 rounded">
+                                                    ✕
+                                                </button>
+                                            </form>
+                                        <% end %>
+                                        <% if status == 'approved' %>
+                                            <form method="POST" action="/update-cart-status" style="display: inline;">
+                                                <input type="hidden" name="cart_id" value="<%= reservation['cart_id'] %>">
+                                                <input type="hidden" name="status" value="returned">
+                                                <button type="submit" class="bg-orange-600 hover:bg-orange-700 text-white text-[10px] font-bold px-2 py-1 rounded" title="Return item">
+                                                    ↺
+                                                </button>
+                                            </form>
+                                        <% end %>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% end %>
+                    <% else %>
+                        <tr class="border-t">
+                            <td colspan="9" class="px-2 py-2 text-center text-gray-500">No reservations found</td>
+                        </tr>
+                    <% end %>
+                </tbody>
+
+                </table>
+
+            </div>
+        </div>
+
+
+        <!-- INVENTORY TABLE -->
+        <div id="inventoryTableContainer" class="hidden">
+            <div class="bg-white rounded-xl border shadow-lg p-4 overflow-x-auto">
+
+                <table id="inventoryTable" class="min-w-full text-xs">
+
+                <thead class="bg-gray-100 text-left font-bold">
+                    <tr>
+                    <th class="px-2 py-2">ID</th>
+                    <th class="px-2 py-2">Name</th>
+                    <th class="px-2 py-2">Quantity</th>
+                    <th class="px-2 py-2">Type</th>
+                    <th class="px-2 py-2">Picture</th>
+                    <th class="px-2 py-2 text-center">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% @items.each do |item| %>
+                    <tr class="border-t">
+                        <td class="px-2 py-2"><%= item['inventory_id'] %></td>
+                        <td class="px-2 py-2"><%= item['name'] %></td>
+                        <td class="px-2 py-2"><%= item['quantity'] %></td>
+                        <td class="px-2 py-2"><%= item['type'] %></td>
+                        <td class="px-2 py-2">
+                        <% if item['picture'] && !item['picture'].empty? %>
+                            <img src="/items/<%= item['picture'] %>" alt="<%= item['name'] %>" class="w-12 h-12 object-cover rounded">
+                        <% else %>
+                            <span class="text-gray-500 text-[10px]">No image</span>
+                        <% end %>
+                        </td>
+                        <td class="px-2 py-2">
+                        <div class="flex justify-center gap-2">
+                            <button
+                            class="bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-bold px-3 py-1 rounded"
+                            data-id="<%= item['inventory_id'] %>"
+                            data-picture="<%= item['picture'] %>"
+                            onclick="openEditModal(this)"
+                            >
+                            Edit
+                            </button>
+
+                            <button
+                            class="bg-red-600 hover:bg-red-700 text-white text-[10px] font-bold px-3 py-1 rounded"
+                            data-id="<%= item['inventory_id'] %>"
+                            onclick="deleteItem(this)"
+                            >
+                            Delete
+                            </button>
+                        </div>
+                        </td>
+                    </tr>
+                    <% end %>
+                </tbody>
+
+                </table>
+            </div>
+        </div>
+
+    </div>
+  </main>
+
+  <!-- DATATABLE SCRIPT -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      new simpleDatatables.DataTable("#reservationTable");
+      new simpleDatatables.DataTable("#inventoryTable");
+    });
+
+    function showReservations() {
+      document
+        .getElementById("reservationTableContainer")
+        .classList.remove("hidden");
+
+      document
+        .getElementById("inventoryTableContainer")
+        .classList.add("hidden");
+    }
+
+    function showInventory() {
+      document
+        .getElementById("inventoryTableContainer")
+        .classList.remove("hidden");
+
+      document
+        .getElementById("reservationTableContainer")
+        .classList.add("hidden");
+    }
+  </script>
+
+</body>
+</html>

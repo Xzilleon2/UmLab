@@ -1,0 +1,91 @@
+<!-- Add Class Modal -->
+<div id="addClassModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
+  <div class="bg-[#5c0a0a] rounded-xl w-11/12 max-w-3xl p-6 text-white relative">
+    
+    <!-- Modal Header -->
+    <h2 class="text-xl font-bold mb-4">Schedule Form</h2>
+    
+    <!-- Modal Form -->
+    <form id="addClassForm" class="grid grid-cols-1 md:grid-cols-2 gap-4" method="POST" action="/add-schedule">
+      <!-- Teacher Name -->
+      <div>
+        <label class="block text-sm font-semibold mb-1" for="teacherName">Name of the Teacher</label>
+        <input required type="text" id="teacher_name" name="teacher_name" class="w-full rounded-md p-2 text-black" placeholder="Enter teacher name">
+      </div>
+
+      <!-- Class Time -->
+      <div>
+        <label class="block text-sm font-semibold mb-1" for="classTime">Class Time</label>
+        <select required id="classTime" name="class_time" class="w-full rounded-md p-2 text-black">
+            <option value="" disabled selected>Select time</option>
+            <option value="8:00 AM - 10:00 AM">8:00 AM - 10:00 AM</option>
+            <option value="10:00 AM - 12:00 PM">10:00 AM - 12:00 PM</option>
+            <option value="1:30 AM - 3:30 PM">1:30 AM - 3:30 PM</option>
+            <option value="3:30 PM - 5:30 PM">3:30 PM - 5:30 PM</option>
+            <option value="5:30 PM - 7:30 PM">5:30 PM - 7:30 PM</option>
+            <option value="7:30 PM - 9:30 PM">7:30 PM - 9:30 PM</option>
+        </select>
+      </div>
+
+      <!-- Class Lab Schedule -->
+      <div>
+        <label class="block text-sm font-semibold mb-1" for="labSchedule">Class Lab Schedule</label>
+        <select required id="labSchedule" name="lab_schedule" class="w-full rounded-md p-2 text-black">
+            <option value="" disabled selected>Select schedule</option>
+            <option value="MON-WED">MON-WED</option>
+            <option value="THU-SAT">THU-SAT</option>
+        </select>
+      </div>
+
+      <!-- Class Code -->
+      <div>
+        <label class="block text-sm font-semibold mb-1" for="classCode">Class Code</label>
+        <input required type="text" id="classCode" name="class_code" class="w-full rounded-md p-2 text-black" placeholder="Enter class code">
+      </div>
+
+      <!-- Classroom Number -->
+      <div>
+        <label class="block text-sm font-semibold mb-1" for="classroom">Classroom #</label>
+        <select required id="classroom" name="classroom" class="w-full rounded-md p-2 text-black">
+            <option value="" disabled selected>Select classroom</option>
+            <option value="BE105">BE105</option>
+            <option value="BE106">BE106</option>
+        </select>
+      </div>
+
+      <!-- Course -->
+      <div>
+        <label class="block text-sm font-semibold mb-1" for="course">Course</label>
+        <input required type="text" id="course" name="course" class="w-full rounded-md p-2 text-black" placeholder="Enter course name">
+      </div>
+
+      <!-- Status -->
+      <div>
+        <label class="block text-sm font-semibold mb-1" for="status">Status</label>
+        <select required id="status" name="status" class="w-full rounded-md p-2 text-black">
+          <option value="" disabled selected>Select status</option>
+          <option value="tentative">Tentative</option>
+          <option value="confirmed">Confirmed</option>
+        </select>
+      </div>
+
+      <!-- Empty placeholder to align modal actions to bottom-right in grid -->
+      <div class="md:col-span-2 flex justify-end space-x-2 mt-4">
+        <button type="button" onclick="closeModal()" class="px-4 py-2 rounded-lg border border-white hover:bg-white hover:text-[#5c0a0a] transition">Cancel</button>
+        <button name="addschedulebtn" type="submit" class="px-4 py-2 rounded-lg bg-green-500 hover:bg-green-600 transition">Add</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+<script>
+  // Open modal when "Add" button is clicked
+    document.getElementById('open_addschedule').addEventListener('click', function() {
+        document.getElementById('addClassModal').classList.remove('hidden');
+    });
+  // Close modal
+  function closeModal() {
+    document.getElementById('addClassModal').classList.add('hidden');
+  }
+</script>
