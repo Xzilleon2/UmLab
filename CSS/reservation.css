@@ -1,0 +1,385 @@
+/* ===== MAIN CONTENT ===== */
+.rsv__main {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: #F0EFEF;
+    padding: 28px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ===== HEADER ===== */
+.rsv__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+
+.rsv__header-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rsv__header-title i {
+    color: #FFC72C;
+    font-size: 26px;
+}
+
+.rsv__header-title h1 {
+    font-size: 26px;
+    font-weight: 800;
+    color: #FFC72C;
+    margin: 0;
+}
+
+.rsv__header-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Sort toggle */
+.rsv__sort {
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.rsv__sort-btn {
+    padding: 8px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Ubuntu', sans-serif;
+    border: none;
+    background-color: transparent;
+    color: #555;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.rsv__sort-btn.active {
+    background-color: #600000;
+    color: #F9FAF7;
+}
+
+.rsv__sort-btn:not(.active):hover {
+    background-color: #f0f0f0;
+}
+
+.rsv__filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 8px 18px;
+    cursor: pointer;
+}
+
+.rsv__filter i {
+    color: #444;
+    font-size: 17px;
+}
+
+.rsv__filter-select {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    font-weight: 600;
+    background: transparent;
+    cursor: pointer;
+    color: #222;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+/* ===== CARDS LIST ===== */
+.rsv__list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 0 129px;
+}
+
+/* ===== RESERVATION CARD ===== */
+.rsv__card {
+    background-color: #fff;
+    border: 1.5px dashed #aaa;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Tag top-right */
+.rsv__card-tag {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #fff;
+    border-bottom: 1.5px dashed #aaa;
+    border-left: 1.5px dashed #aaa;
+    border-radius: 0 0 0 6px;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #555;
+}
+
+/* Card body — dark red */
+.rsv__card-body {
+    background-color: #600000;
+    padding: 14px 22px 14px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Rows */
+.rsv__row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: start;
+    gap: 12px;
+}
+
+.rsv__row--3col {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.rsv__row--last {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+    gap: 12px;
+}
+
+/* Combined Row 2+3 grid — graybox spans both rows */
+.rsv__card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr;
+    gap: 12px;
+}
+
+.rsv__card-grid > .rsv__field {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.rsv__card-grid > .rsv__graybox--span {
+    grid-column: 2;
+    grid-row: 1 / 3;
+}
+
+.rsv__card-grid > .rsv__fields-left {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.rsv__fields-left {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    align-items: start;
+}
+
+/* Field label + value */
+.rsv__field {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 4px;
+    min-width: 0;
+}
+
+.rsv__field--table {
+    grid-column: span 2;
+}
+
+/* Equipment table */
+.rsv__equip-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    font-family: 'Ubuntu', sans-serif;
+    margin-top: 0;
+}
+
+.rsv__equip-table thead tr {
+    background-color: #600000;
+}
+
+.rsv__equip-table th {
+    color: #F9FAF7;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 5px 10px;
+    text-align: left;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.rsv__equip-table td {
+    color: #333;
+    font-size: 13px;
+    font-weight: 400;
+    padding: 5px 10px;
+    border: 1px solid rgba(0,0,0,0.08);
+    background-color: rgba(255,255,255,0.5);
+    min-width: 60px;
+}
+
+.rsv__label {
+    color: #F9FAF7;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.rsv__value {
+    color: #F9FAF7;
+    font-size: 14px;
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Textarea */
+.rsv__textarea {
+    width: 100%;
+    min-height: 80px;
+    background-color: #d9d9d9;
+    border: none;
+    border-radius: 4px;
+    resize: none;
+    padding: 8px;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 14px;
+    color: #333;
+    box-sizing: border-box;
+}
+
+/* Gray box replacing textarea — holds equipment table */
+.rsv__graybox {
+    width: 100%;
+    background-color: #d9d9d9;
+    border-radius: 4px;
+    padding: 8px;
+    box-sizing: border-box;
+    overflow: auto;
+    align-self: stretch;
+}
+
+.rsv__graybox-header {
+    font-size: 13px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 6px;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.rsv__row--1col {
+    grid-template-columns: 1fr;
+}
+
+.rsv__row--2col {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+/* ===== CARD FOOTER ===== */
+.rsv__card-footer {
+    background-color: #fff;
+    padding: 8px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.rsv__footer-left {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.rsv__status-label {
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+}
+
+.rsv__status-value {
+    color: #E67E00;
+    font-weight: 700;
+}
+
+.rsv__class-hours {
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+}
+
+.rsv__footer-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.rsv__btn-approve {
+    background-color: #28a745;
+    color: #F9FAF7;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Ubuntu', sans-serif;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.rsv__btn-approve:hover {
+    opacity: 0.85;
+}
+
+.rsv__btn-seemore {
+    background-color: transparent;
+    color: #333;
+    border: 1.5px solid #888;
+    border-radius: 20px;
+    padding: 5px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Ubuntu', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.rsv__btn-seemore:hover {
+    background-color: #f0f0f0;
+}
+
+.rsv__btn-delete {
+    background-color: transparent;
+    color: #c00;
+    border: 1.5px solid #c00;
+    border-radius: 20px;
+    padding: 5px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Ubuntu', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.rsv__btn-delete:hover {
+    background-color: #c00;
+    color: #fff;
+}
